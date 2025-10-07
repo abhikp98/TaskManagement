@@ -2,7 +2,7 @@ from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from tasks.models import Tasks
-from .serialisers import TaskListSerialiser
+from .serialisers import TaskListSerialiser, TaskUpdateSerialiser
 
 # Create your views here.
 class TaskList(ListAPIView):
@@ -17,5 +17,6 @@ class TaskList(ListAPIView):
 
 class TaskUpdate(UpdateAPIView):
     authentication_classes = [JWTAuthentication]
-
-
+    serializer_class = TaskUpdateSerialiser
+    queryset = Tasks.objects.all()
+    lookup_field = 'id'

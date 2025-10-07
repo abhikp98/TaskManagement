@@ -5,6 +5,9 @@ class TaskListSerialiser(ModelSerializer):
     class Meta:
         model = Tasks
         exclude = ['assigned_to', 'admin', 'id']
-
-
     
+
+class TaskUpdateSerialiser(ModelSerializer):
+    class Meta:
+        model = Tasks
+        fields = ['status']
