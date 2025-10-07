@@ -2,5 +2,9 @@ from rest_framework.serializers import ModelSerializer
 from .models import Tasks
 
 class TaskListSerialiser(ModelSerializer):
-    models = Tasks
+    class Meta:
+        model = Tasks
+        exclude = ['assigned_to', 'admin', 'id']
+
+
     
