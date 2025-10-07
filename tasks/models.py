@@ -14,8 +14,10 @@ class Tasks(models.Model):
     due_date = models.DateField()
     status = models.CharField(default="pending", blank=False, choices=STATUS_CHOICES)
     worked_hours = models.IntegerField(blank=True, null=True)
-    completion_report = models.TextField
+    completion_report = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
     admin = models.OneToOneField(User, on_delete=models.CASCADE, related_name='admin')
 
+    def __str__(self):
+        return self.title
