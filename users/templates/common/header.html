@@ -1,13 +1,12 @@
 {% block header %}
 <div class="bg-emerald-400 text-white text-2xl p-3 flex mb-2">
-    <div class="flex-col-10">
-
-        Welcome
-    </div>
-  <div class="flex-col-2">
+  <div class="flex-col-10 w-1/2">Welcome</div>
+  <div class="w-1/2 flex justify-end">
     <form method="post" action="{% url 'logout' %}">
       {% csrf_token %}
-      <button type="submit" class="text-black hover:curser-pointer">Logout</button>
+      <button type="submit" class="cursor-pointer text-white font-bold text-md">
+        Logout
+      </button>
     </form>
   </div>
 </div>

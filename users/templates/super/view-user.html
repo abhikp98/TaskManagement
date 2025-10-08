@@ -1,8 +1,7 @@
 {% extends 'super/home.html' %} {% block content %}
-
 <div class="bg-yellow-200 flex gap-5 p-4">
-  <div>Email: {{admin.email}}</div>
-  <div>Username: {{admin.username}}</div>
+  <div>Email: {{user.email}}</div>
+  <div>Username: {{user.username}}</div>
 </div>
 <div>
   <table class="w-full text-left table-auto min-w-max text-slate-800">
@@ -18,10 +17,10 @@
           <p class="text-sm leading-none font-normal">Description</p>
         </th>
         <th class="p-4">
-          <p class="text-sm leading-none font-normal">Due Date</p>
+          <p class="text-sm leading-none font-normal">Assigned By</p>
         </th>
         <th class="p-4">
-          <p class="text-sm leading-none font-normal">Updated</p>
+          <p class="text-sm leading-none font-normal">Remarks</p>
         </th>
         <th class="p-4">
           <p></p>
@@ -35,16 +34,23 @@
           <p class="text-sm font-bold">{{forloop.counter}}</p>
         </td>
         <td class="p-4">
-          <p class="text-sm">{{task.title}}</p>
+          <p class="text-sm">{{task.tasks.title}}</p>
         </td>
         <td class="p-4">
-          <p class="text-sm">{{task.description}}</p>
+          <p class="text-sm">{{task.tasks.description}}</p>
         </td>
         <td class="p-4">
-          <p class="text-sm">{{task.due_date}}</p>
+          <p class="text-sm">{{task.tasks.admin.username}}</p>
         </td>
         <td class="p-4">
-          <p class="text-sm">{{task.updated}}</p>
+          {% if task.status == "completed" %}
+          <p class="text-sm">
+            Time taken: {{task.worked_hours}}<br />Report:
+            {{task.completion_report}}
+          </p>
+          {% else %}
+          <p class="text-sm">{{task.status}}</p>
+          {% endif %}
         </td>
         <td class="p-4"></td>
       </tr>

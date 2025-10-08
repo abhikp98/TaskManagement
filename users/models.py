@@ -9,3 +9,4 @@ class User(AbstractUser):
         ('superuser', 'SuperUser')
     )
     role = models.CharField(max_length=50, default='user', choices=ROLE_CHOICE)
+    is_deleted = models.BooleanField(default=False)
