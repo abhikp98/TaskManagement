@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login/', TokenObtainPairView.as_view(), name="login"),
     path('api/login/refresh/', TokenRefreshView.as_view(), name="refresh"),
-    path('', include('tasks.urls'))
+    path('api/', include('tasks.urls')),
+    path('', include('users.urls'))
     
 ]
