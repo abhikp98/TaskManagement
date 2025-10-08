@@ -7,11 +7,14 @@ urlpatterns = [
     path('dashboard/', Dashboard.as_view(), name="dashboard"),
     path('logout/', LogoutView.as_view(next_page="login"),name="logout"),
 
-    #superadmin
+    #superadmin - admin
     path('manage-admins/', CreateAdmins.as_view(), name="manage-admins"),
     path('manage-admins/<int:pk>/', ViewAdmins.as_view(), name="view-admins"),
-    
+    path('delete_admin/<int:pk>/', DeleteAdmins.as_view(), name="delete_admin"),
 
-
+    #Superadmin - user
+    path('manage-users/', CreateUsers.as_view(), name="manage-users"),
+    path('manage-users/<int:pk>/', ViewUsers.as_view(), name="view-users"),
+    path('delete_users/<int:pk>/', DeleteUsers.as_view(), name="delete_users"),
     
 ]

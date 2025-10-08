@@ -3,14 +3,14 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 
-from tasks.models import Tasks
+from tasks.models import Tasks, AssignTasks
 from .serialisers import TaskListSerialiser, TaskUpdateSerialiser, TaskCompletionSerialiser
 
 # Create your views here.
 class TaskList(ListAPIView):
     authentication_classes = [JWTAuthentication]
     serializer_class = TaskListSerialiser
-    queryset = Tasks.objects.all()
+    queryset = AssignTasks.objects.all()
 
     def get_queryset(self):
         query = super().get_queryset()
@@ -20,14 +20,14 @@ class TaskList(ListAPIView):
 class TaskUpdate(UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     serializer_class = TaskUpdateSerialiser
-    queryset = Tasks.objects.all()
+    queryset = AssignTasks.objects.all()
     lookup_field = 'id'
 
 
 class CompletionReport(UpdateAPIView):
     authentication_classes= [JWTAuthentication]
     serializer_class = TaskCompletionSerialiser
-    queryset = Tasks.objects.all()
+    queryset = AssignTasks.objects.all()
     lookup_field = "id"
 
     def update(self, request, *args, **kwargs):

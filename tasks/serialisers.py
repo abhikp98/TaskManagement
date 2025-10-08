@@ -1,20 +1,29 @@
-from rest_framework.serializers import ModelSerializer
-from .models import Tasks
+from rest_framework.serializers import ModelSerializer, CharField
+from .models import Tasks, AssignTasks, User
 
-class TaskListSerialiser(ModelSerializer):
+class TasksSerializer(ModelSerializer):
+    admin = CharField(source='admin.username', read_only=True)
+
     class Meta:
         model = Tasks
-        exclude = ['assigned_to', 'admin', 'id']
-    
+        fields = ['id', 'title', 'description', 'due_date', 'created', 'updated', 'admin']
+
+
+class TaskListSerialiser(ModelSerializer):
+    tasks = TasksSerializer()
+    class Meta:
+        model = AssignTasks
+        exclude = ['assigned_to']
+ 
 
 class TaskUpdateSerialiser(ModelSerializer):
     class Meta:
-        model = Tasks
+        model = AssignTasks
         fields = ['status']
 
 
 class TaskCompletionSerialiser(ModelSerializer):
     class Meta:
-        model = Tasks
+        model = AssignTasks
         fields = ['worked_hours', 'completion_report']
         
