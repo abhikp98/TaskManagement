@@ -1,1 +1,17 @@
-<h1>base template</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <header>{% include 'common/header.html' %}</header>
+    <main class="flex">
+      <div class="w-2/12">{% block sidebar %}{% endblock %}</div>
+      <div class="w-10/12">{% block content %}dfwerf{% endblock %}</div>
+    </main>
+    <footer>{% block footer %}{% endblock %}</footer>
+  </body>
+</html>

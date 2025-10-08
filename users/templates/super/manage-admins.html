@@ -1,0 +1,66 @@
+{% extends "super/home.html" %} {% block content %}
+<h2 class="text-bold text-2xl">Manage Admins</h2>
+<div class="flex col">
+  
+  <div class="align-items-center">
+    {% if messages %} {% for message in messages %}
+    <div
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+      role="alert"
+    >
+      <span class="block sm:inline">{{message}}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg
+          class="fill-current h-6 w-6 text-red-500"
+          role="button"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <title>Close</title>
+          <path
+            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+          />
+        </svg>
+      </span>
+      {% endfor %} {% endif %}
+    </div>
+    <form
+      method="post"
+      action="{% url 'manage-admins' %}"
+      class="p-3 bg-emerald-300 w-2/3 mx-auto"
+    >
+      {% csrf_token %}
+      <input type="text" placeholder="username" name="username" required />
+      <input type="email" placeholder="Email" name="email" required />
+      <input type="password" placeholder="password" name="password" required />
+      <input type="submit" value="Add" />
+    </form>
+  </div>
+  <div class="mt-5">
+    {% if admins %}
+    <table class="rounded w-2/3 mx-auto">
+      <thead class="text-left">
+        <tr class="gap-2">
+          <th>Sl</th>
+          <th>Admin Name</th>
+          <th>Manage</th>
+        </tr>
+      </thead>
+
+      {% for admin in admins %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{admin}}</td>
+        <td>
+          <a href="{% url 'view-admins' admin.id %}"
+            ><button class="bg-green-200">View</button></a
+          >
+        </td>
+      </tr>
+
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
