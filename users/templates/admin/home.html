@@ -1,1 +1,4 @@
-{% extends 'base.html' %} {% block header %} check admin {% endblock %}
+{% extends 'base.html' %}
+{% include 'common/header.html' %}
+{% block sidebar %}{% include 'admin/sidebar.html' %}{% endblock %}
+{% block content %} {% endblock %}

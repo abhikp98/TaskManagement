@@ -16,5 +16,12 @@ urlpatterns = [
     path('manage-users/', CreateUsers.as_view(), name="manage-users"),
     path('manage-users/<int:pk>/', ViewUsers.as_view(), name="view-users"),
     path('delete_users/<int:pk>/', DeleteUsers.as_view(), name="delete_users"),
+
+
+    path('manage-tasks/', Managetasks.as_view(), name="manage-tasks"),
+    path('delete-tasks/<int:pk>/', DeleteTask.as_view(), name='delete-tasks'),
+    path('view-assigns/<int:pk>/', ViewAssigns.as_view(), name='view-assigns'),
+
+    
     
 ]

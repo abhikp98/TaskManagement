@@ -8,6 +8,7 @@ class Tasks(models.Model):
     due_date = models.DateField()
     created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
+    isDeleted = models.BooleanField(default=False)
     admin = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -1,0 +1,102 @@
+{% extends "admin/home.html" %} {% block content %}
+<div class="flex col">
+  <div class="">
+    {% if messages %} {% for message in messages %}
+    <div
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+      role="alert"
+    >
+      <span class="block sm:inline">{{message}}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg
+          class="fill-current h-6 w-6 text-red-500"
+          role="button"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <title>Close</title>
+          <path
+            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+          />
+        </svg>
+      </span>
+      {% endfor %} {% endif %}
+    </div>
+
+    <div class="px-4 mx-auto max-w-2xl">
+      <h2 class="text-xl font-bold text-gray-900">Manage Tasks</h2>
+      <form method="post" action="{% url 'view-assigns' task_id %}">
+        {% csrf_token %}
+        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+          <div>
+            <label
+              for="category"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Category</label
+            >
+            <select
+              name="userid"
+              id="category"
+              class="w w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            >
+              {% for user in users %}
+              <option>Select a User</option>
+              <option value="{{user.id}}">{{user.username}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-emerald-500 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 w-full"
+        >
+          Assign
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="mt-5">
+    <div
+      class="relative flex flex-col w-2/3 mx-auto h-100 overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border"
+    >
+      <table class="w-full text-left table-auto min-w-max text-slate-800">
+        <thead class="sticky">
+          <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Sl</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">User</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Remarks</p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for assign in assigns %}
+          <tr class="hover:bg-slate-50">
+            <td class="p-4">
+              <p class="text-sm font-bold">{{forloop.counter}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{assign.assigned_to.username}}</p>
+            </td>
+            <td class="p-4">
+              {% if assign.status == "completed" %}
+              <p class="text-sm">
+                Time taken: {{assign.worked_hours}}<br />Report:
+                {{assign.completion_report}}
+              </p>
+              {% else %}
+              <p class="text-sm">{{assign.status}}</p>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
