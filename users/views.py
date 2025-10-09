@@ -121,3 +121,68 @@ class DeleteUsers(LoginRequiredMixin, View):
         user_obj.is_deleted = True
         user_obj.save()
         return redirect('manage-users')
+    
+
+
+class Managetasks(LoginRequiredMixin, ListView):
+
+    template_name = "admin/manage-tasks.html"
+    model = Tasks
+    context_object_name = "tasks"
+
+    def get_queryset(self):
+        query = super().get_queryset().filter(admin=self.request.user.id).filter(isDeleted=False)
+        return query
+    
+    def post(self, request):
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        due_date = request.POST.get("due_date")
+
+        if Tasks.objects.filter(title=title).exists():
+            messages.error(request, "Same Task is already exist")
+            return render(request, self.template_name)
+        
+        task = Tasks(title=title, description=description, due_date=due_date, admin=self.request.user)
+        task.save()
+        messages.success(request, "Added Successfully")
+        return redirect('manage-tasks')
+
+
+class DeleteTask(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        task_id = self.kwargs.get("pk")
+        task_obj = get_object_or_404(Tasks, id=task_id)
+        task_obj.is_deleted = True
+        task_obj.save()
+        return redirect('manage-tasks')
+
+class ViewAssigns(LoginRequiredMixin, ListView):
+    model = AssignTasks
+    template_name= "admin/view-assigned-tasks.html"
+    context_object_name = "assigns"
+
+    def post(self, request, pk):
+        task_id = pk
+        userid = request.POST.get('userid')
+        AssignTasks.objects.create(tasks_id=task_id, assigned_to_id=userid)
+        return redirect('manage-tasks')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        task_id = self.kwargs.get("pk")
+        assigned_user_ids = AssignTasks.objects.filter(
+            tasks_id=task_id
+        ).values_list('assigned_to_id', flat=True)
+        unassigned_users = User.objects.filter(role="user").exclude(id__in=assigned_user_ids)
+        context['users'] = unassigned_users
+        context['task_id'] = task_id
+        print(unassigned_users)
+        return context
+
+    def get_queryset(self):
+        task_id = self.kwargs.get('pk')
+        query = super().get_queryset().filter(tasks=task_id)
+        return query
+    
+

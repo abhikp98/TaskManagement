@@ -1,0 +1,150 @@
+{% extends "admin/home.html" %} {% block content %}
+<div class="flex col">
+  <div class="">
+    {% if messages %} {% for message in messages %}
+    <div
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+      role="alert"
+    >
+      <span class="block sm:inline">{{message}}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg
+          class="fill-current h-6 w-6 text-red-500"
+          role="button"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <title>Close</title>
+          <path
+            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+          />
+        </svg>
+      </span>
+      {% endfor %} {% endif %}
+    </div>
+
+    <div class="px-4 mx-auto max-w-2xl">
+      <h2 class="text-xl font-bold text-gray-900">Manage Tasks</h2>
+      <form method="post" action="{% url 'manage-tasks' %}">
+        {% csrf_token %}
+        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+          <div class="sm:col-span-2">
+            <input
+              type="text"
+              name="title"
+              id="name"
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Title"
+              required=""
+            />
+          </div>
+          <div class="w-full">
+            <input
+              type="date"
+              name="due_date"
+              id="brand"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Due Date"
+              required=""
+            />
+          </div>
+          <div class="w-full">
+            <textarea
+              name="description"
+              id="description"
+              rows="8"
+              class="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Your description here"
+            ></textarea>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-emerald-500 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 w-full"
+        >
+          Create
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="mt-5">
+    <div
+      class="relative flex flex-col w-2/3 mx-auto h-100 overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border"
+    >
+      <table class="w-full text-left table-auto min-w-max text-slate-800">
+        <thead class="sticky">
+          <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Sl</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Task</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Description</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Due Date</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Created</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Updated</p>
+            </th>
+            <th class="p-4">
+              <p></p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+          <tr class="hover:bg-slate-50">
+            <td class="p-4">
+              <p class="text-sm font-bold">{{forloop.counter}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{task.title}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{task.description}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{task.due_date}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{task.created}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{task.updated}}</p>
+            </td>
+            <td class="p-4">
+              <a
+                href="{% url 'view-assigns' task.id %}"
+                class="text-sm font-semibold"
+              >
+                <button
+                  class="bg-green-500 p-1 mr-1 text-white rounded pl-2 pr-2 cursor-pointer"
+                >
+                  Assign to Users
+                </button>
+              </a>
+              <a
+                href="{% url 'delete-tasks' task.id %}"
+                class="text-sm font-semibold"
+              >
+                <button
+                  class="bg-red-500 p-1 ml-1 text-white rounded pl-2 pr-2 cursor-pointer"
+                >
+                  Delete
+                </button></a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
