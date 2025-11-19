@@ -1,0 +1,46 @@
+{% extends "admin/home.html" %} {% block content %}
+<div class="flex col">
+  <div class="mt-5">
+    <div
+      class="relative flex flex-col mx-auto h-100 overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border"
+    >
+      <table class="w-full text-left table-auto min-w-max text-slate-800">
+        <thead class="sticky">
+          <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Sl</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">User</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Remarks</p>
+            </th>
+            <th class="p-4">
+              <p class="text-sm leading-none font-normal">Worked Hours</p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in completed %}
+          <tr class="hover:bg-slate-50">
+            <td class="p-4">
+              <p class="text-sm font-bold">{{forloop.counter}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">{{data.tasks.title}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">Report: {{data.completion_report}}</p>
+            </td>
+            <td class="p-4">
+              <p class="text-sm">Report: {{data.worked_hours}}</p>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
