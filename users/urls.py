@@ -22,6 +22,8 @@ urlpatterns = [
     path('delete-tasks/<int:pk>/', DeleteTask.as_view(), name='delete-tasks'),
     path('view-assigns/<int:pk>/', ViewAssigns.as_view(), name='view-assigns'),
 
+    path('completed-users/', CompletedUsers.as_view(), name="completed-users")
+
     
     
 ]

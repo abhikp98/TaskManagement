@@ -19,6 +19,7 @@ class Login(LoginView):
 class Dashboard(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         role = self.request.user.role
+        print(role)
         if  role== "admin":
             self.template_name = "admin/home.html"
         elif role == "superuser":
@@ -184,5 +185,19 @@ class ViewAssigns(LoginRequiredMixin, ListView):
         task_id = self.kwargs.get('pk')
         query = super().get_queryset().filter(tasks=task_id)
         return query
+
+
+class CompletedUsers(LoginRequiredMixin,ListView):
+    model = AssignTasks
+    template_name = "admin/view-completed.html"
+    context_object_name = "completed"
+    queryset = AssignTasks.objects.all()
+    
+
+    def get_queryset(self):
+        q=super().get_queryset()
+        userid = self.request.user.id
+        return q.filter(tasks__admin=userid)
+
     
 
